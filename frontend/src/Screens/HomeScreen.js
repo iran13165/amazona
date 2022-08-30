@@ -1,7 +1,11 @@
 import React, { useEffect, useReducer } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
-
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Product from '../components/Product';
+import { Helmet } from 'react-helmet-async';
+import LoadingBox from '../components/LoadingBox';
+import MessageBox from '../components/MessageBox';
 const reducer = (state, action) => {
   switch (action.type) {
     case 'FETCH_REQUEST':
@@ -17,7 +21,7 @@ const reducer = (state, action) => {
 
 const HomeScreen = () => {
   //const [products, setProducts] = useState([]);
-  const [{ loading, error, products }, dispatch] = useReducer(reducer, {
+  const [{ products, loading, error }, dispatch] = useReducer(reducer, {
     products: [],
     loading: true,
     error: '',
@@ -28,6 +32,7 @@ const HomeScreen = () => {
       dispatch({ type: 'FETCH_REQUEST' });
       try {
         const result = await axios.get('/api/products');
+        console.log(result.data);
         dispatch({
           type: 'FETCH_SUCCESS',
           payload: result.data,
@@ -44,32 +49,31 @@ const HomeScreen = () => {
       //setProducts(result.data);
     };
     fetchData();
-  }, []);
+  }, [error.message]);
   return (
     <div>
+      <Helmet>
+        <title>Amazona</title>
+      </Helmet>
       <h1>Featured Product</h1>
       <div className="products">
         {loading ? (
-          <div>Loading</div>
+          <LoadingBox/>
         ) : error ? (
-          <div>error</div>
+          <MessageBox variant="danger">{error}</MessageBox>
         ) : (
-          products.map((product) => (
-            <div className="product" key={product.slug}>
-              <Link to={`/product/${product.slug}`}>
-                <img src={product.image} alt={product.name} />
-              </Link>
-              <div className="product-info">
-                <Link to={`/product/${product.slug}`}>
-                  <p>{product.name}</p>
-                </Link>
-                <p>
-                  <strong>${product.price}</strong>
-                </p>
-                <button>Add To Cart</button>
-              </div>
-            </div>
-          ))
+          <Row>
+            {console.log(products)}
+            {
+              
+            products.products.map((product) => (
+              <Col key={product.slug} sm={6} md={4} lg={3} className="mb-3">
+                <Product product={product}/>
+              </Col>
+            ))
+            
+            }
+          </Row>
         )}
       </div>
     </div>

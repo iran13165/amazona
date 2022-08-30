@@ -1,0 +1,21 @@
+{
+  "name": "amazona",
+  "version": "1.0.0",
+  "description": "# lessons 1. Introduction 2. Install Tools 3. Create React App 4. Create Git Repository",
+  "main": "index.js",
+  "scripts": {
+    "build": "cd backend && npm install && cd ../frontend && npm install && npm run build",
+    "start": "node backend/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iran13165/amazona.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iran13165/amazona/issues"
+  },
+  "homepage": "https://github.com/iran13165/amazona#readme"
+}
